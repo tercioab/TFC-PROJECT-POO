@@ -32,4 +32,9 @@ describe('Testes login', () => {
         expect(result.status).to.be.equal(400);
         expect(result.body).to.be.deep.equal({message: 'All fields must be filled'})
     })
+    it('Verifica se o login foi feito com sucesso', async () => {
+        const result = await chai.request(app).post('/login').send({ email: validUser.email, password: validUser.password })
+        expect(result.status).to.be.equal(200)
+        expect(result.body).to.have.property('token');
+    })
 })
