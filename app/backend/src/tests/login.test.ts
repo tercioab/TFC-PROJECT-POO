@@ -19,22 +19,47 @@ const validUser = {
     password: '$2a$08$Y8Abi8jXvsXyqm.rmp0B.uQBA5qUz7T6Ghlg/CvVr/gLxYj5UAZVO', 
 }
 
+const invalidUser = {
+    username: 'invalidUser',
+    role: 'invalidUser',
+    email: 'invalidUser',
+    password: '$2a$08$Yyqm.rmp0B.uQBA5qUz7T6Ghlg/CvVr/gLxYj5UAZVO', 
+}
+
+const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNjU0NTI3MTg5fQ.XS_9AA82iNoiVaASi0NtJpqOQ_gHSHhxrpIdigiT-fc" 
+
 describe('Testes login', () => {
     afterEach(sinon.restore)
-    it('Verifica se o email foi informado', async () => {
+    it('01. Verifica se o login foi feito com sucesso', async () => {
+        const result = await chai.request(app).post('/login').send({ email: validUser.email, password: validUser.password })
+        expect(result.status).to.be.equal(200)
+        expect(result.body).to.have.property('token');
+    })
+
+    it('02. Verifica se o email foi informado', async () => {
         const result = await chai.request(app).post('/login').send({ password: validUser.password })
         expect(result.status).to.be.equal(400);
         expect(result.body).to.be.deep.equal({message: 'All fields must be filled'})
     })
 
-    it('Verifica se a senha foi informada', async () => {
+    it('03. Verifica se a senha foi informada', async () => {
         const result = await chai.request(app).post('/login').send({ password: validUser.email })
         expect(result.status).to.be.equal(400);
         expect(result.body).to.be.deep.equal({message: 'All fields must be filled'})
     })
-    it('Verifica se o login foi feito com sucesso', async () => {
-        const result = await chai.request(app).post('/login').send({ email: validUser.email, password: validUser.password })
-        expect(result.status).to.be.equal(200)
-        expect(result.body).to.have.property('token');
+
+    it('04. Verifica se os dados são validos', async () => {
+        const result = await chai.request(app).post('/login').send({ email: invalidUser.email, password: invalidUser.password })
+        expect(result.status).to.be.equal(401);
+        expect(result.body).to.be.deep.equal({message: 'Incorrect email or password'})
     })
+
+    it('Rota validate retorna a role do usuário', async () => {
+        sinon.stub(usersModel, 'findOne').resolves({ dataValues: validUser } as any);
+        const result = await chai.request(app).get('/login/validate').set('Authorization', token);
+        expect(result.status).to.be.equal(200);
+        expect(result.body).to.have.property('role');
+        expect(result.body.role).to.have.equal('admin');
+      });
+    
 })
