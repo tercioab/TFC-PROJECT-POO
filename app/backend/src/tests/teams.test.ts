@@ -17,19 +17,20 @@ describe('Teste teams', () => {
         const result = await chai.request(app).get('/teams/2');
         expect(result.status).to.be.equal(200);
         expect(result.body.teamName).to.be.deep.equal("Bahia");
-      });
+    });
     
-
-      it('Retorna erro se o id não existir', async () => {
+    it('Retorna erro se o id não existir', async () => {
         const result = await chai.request(app).get('/teams/2000');
         expect(result.status).to.be.equal(401);
         expect(result.body).to.be.deep.equal({ message: 'There is no team with such id!' });
-      });
-
-
-    // it('', async () => {
-
-    // })
+    });
+    
+    it('Retorna todos os times', async () => {
+        const result = await chai.request(app).get('/teams');
+        expect(result.status).to.be.equal(200);
+        expect(result.body).to.be.an('array')
+    });
+    
 
 
     // it('', async () => {
