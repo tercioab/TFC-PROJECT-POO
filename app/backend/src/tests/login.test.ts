@@ -19,7 +19,7 @@ const validUser = {
 
 const invalidUser = {
     username: 'invalidUser',
-    role: 'invalidUser',
+    role: 'invalidUser@gmail.com',
     email: 'invalidUser',
     password: '$2a$08$Yyqm.rmp0B.uQBA5qUz7T6Ghlg/CvVr/gLxYj5UAZVO', 
 }
@@ -52,7 +52,19 @@ describe('Testes login', () => {
         expect(result.body).to.be.deep.equal({message: 'Incorrect email or password'})
     })
 
-    it('05. Rota validate retorna a role do usuário', async () => {
+    it('05. Verifica retorna erro com formato de email invalido', async () => {
+        const result = await chai.request(app).post('/login').send({ email: "astrowest", password: invalidUser.password })
+        expect(result.status).to.be.equal(401);
+        expect(result.body).to.be.deep.equal({message: 'Incorrect email or password'})
+    })
+
+    it('06. não realiza login com a senha incorreta', async () => {
+        const result = await chai.request(app).post('/login').send({ email: validUser.email, password: "astrowest" })
+        expect(result.status).to.be.equal(401);
+        expect(result.body).to.be.deep.equal({message: 'Incorrect email or password'})
+    })
+
+    it('07. Rota validate retorna a role do usuário', async () => {
         sinon.stub(usersModel, 'findOne').resolves({ dataValues: validUser } as any);
         const result = await chai.request(app).get('/login/validate').set('Authorization', token);
         expect(result.status).to.be.equal(200);
@@ -61,11 +73,17 @@ describe('Testes login', () => {
     });
     
 
-    it('06. É possível realizar o login com sucesso.', async () => {
+    it('08. É possível realizar o login com sucesso.', async () => {
         sinon.stub(usersModel, 'findOne').resolves({ dataValues: validUser } as any);
         const result = await chai.request(app).post('/login').send({ email: validUser.email, password: "secret_admin" });
         expect(result.status).to.be.equal(200);
         expect(result.body).to.have.property('token');
     });
+
+    it('09. retorna "Token not found" se o token for incorreto', async () => {
+        const result = await chai.request(app).get('/login/validate');
+        expect(result.status).to.be.equal(400);
+        expect(result.body.message).to.have.equal('Token not found');
+      });
     
 })
