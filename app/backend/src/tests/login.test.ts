@@ -52,12 +52,20 @@ describe('Testes login', () => {
         expect(result.body).to.be.deep.equal({message: 'Incorrect email or password'})
     })
 
-    it('Rota validate retorna a role do usuário', async () => {
+    it('05. Rota validate retorna a role do usuário', async () => {
         sinon.stub(usersModel, 'findOne').resolves({ dataValues: validUser } as any);
         const result = await chai.request(app).get('/login/validate').set('Authorization', token);
         expect(result.status).to.be.equal(200);
         expect(result.body).to.have.property('role');
         expect(result.body.role).to.have.equal('admin');
-      });
+    });
+    
+
+    it('06. É possível realizar o login com sucesso.', async () => {
+        sinon.stub(usersModel, 'findOne').resolves({ dataValues: validUser } as any);
+        const result = await chai.request(app).post('/login').send({ email: validUser.email, password: "secret_admin" });
+        expect(result.status).to.be.equal(200);
+        expect(result.body).to.have.property('token');
+    });
     
 })
