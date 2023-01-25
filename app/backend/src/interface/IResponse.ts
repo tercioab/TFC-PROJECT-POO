@@ -1,4 +1,4 @@
 export default interface Response {
-  status: number,
-  message: string,
+  status: number;
+  message: string;
 }

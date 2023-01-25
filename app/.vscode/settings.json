@@ -1,0 +1,5 @@
+{
+  "trunk.inlineDecoratorsForAllExtensions": true,
+  "trunk.trace.server": "messages",
+  "trunk.trunkGrayOutNonBlockingIssues": true
+}
