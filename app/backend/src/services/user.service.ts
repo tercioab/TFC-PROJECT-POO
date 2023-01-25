@@ -3,7 +3,7 @@ import usersModel from '../database/models/User.model';
 import JWT from '../auth/jwtFunctions';
 import IResponse from '../interface/IResponse';
 
-export default class userService {
+export default class UserService {
   private _jwt: JWT;
   constructor() {
     this._jwt = new JWT();
