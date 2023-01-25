@@ -3,16 +3,19 @@ import usersModel from '../database/models/User.model';
 import JWT from '../auth/jwtFunctions';
 import IResponse from '../interface/IResponse';
 
-export default class UserService {
-  private _jwt: JWT;
+class UserService {
+  private _usersModel;
+  private _jwt;
+
   constructor() {
+    this._usersModel = usersModel;
     this._jwt = new JWT();
   }
 
-  async findUser(email: string, password: string): Promise<IResponse> {
+  public async findUser(email: string, password: string): Promise<IResponse> {
     const message = 'Incorrect email or password';
     const status = 401;
-    const user = await usersModel.findOne({ where: { email } });
+    const user = await this._usersModel.findOne({ where: { email } });
 
     if (!user) {
       return { status, message };
@@ -25,3 +28,5 @@ export default class UserService {
     return { status: 200, message: userToken };
   }
 }
+
+export default new UserService();

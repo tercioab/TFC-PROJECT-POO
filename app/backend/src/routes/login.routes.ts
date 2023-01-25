@@ -5,8 +5,6 @@ import UsersController from '../controller/user.controller';
 
 const routers = Router();
 
-const user = new UsersController();
-
-routers.post('/login', validateLogin, user.findUser);
+routers.post('/', validateLogin, UsersController.findUser);
 
 export default routers;

@@ -11,10 +11,10 @@ chai.use(chaiHttp);
 const { expect } = chai;
 
 const validUser = {
-    username: 'User',
-    role: 'user',
-    email: 'user@user.com',
-    password: '$2a$08$Y8Abi8jXvsXyqm.rmp0B.uQBA5qUz7T6Ghlg/CvVr/gLxYj5UAZVO', 
+    username: 'Admin',
+    role: 'admin',
+    email: 'admin@admin.com',
+    password: '$2a$08$xi.Hxk1czAO0nZR..B393u10aED0RQ1N3PAEXQ7HxtLjKPEZBu.PW'
 }
 
 const invalidUser = {
@@ -24,25 +24,27 @@ const invalidUser = {
     password: '$2a$08$Yyqm.rmp0B.uQBA5qUz7T6Ghlg/CvVr/gLxYj5UAZVO', 
 }
 
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNjU0NTI3MTg5fQ.XS_9AA82iNoiVaASi0NtJpqOQ_gHSHhxrpIdigiT-fc" 
+const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJVc2VyIiwicm9sZSI6InVzZXIiLCJlbWFpbCI6InVzZXJAdXNlci5jb20iLCJwYXNzd29yZCI6IiQyYSQwOCRZOEFiaThqWHZzWHlxbS5ybXAwQi51UUJBNXFVejdUNkdobGcvQ3ZWci9nTHhZajVVQVpWTyIsImlhdCI6MTY3NDY1MzI5NCwiZXhwIjoxNjc0Njc0ODk0fQ.c4DiropaM9N4o4nml4olCmIhnZXEfefB_l0NQ08EpoI" 
 
 describe('Testes login', () => {
     afterEach(sinon.restore)
     
-    it('01. Verifica se o login foi feito com sucesso', async () => {
-        const result = await chai.request(app).post('/login').send({ email: validUser.email, password: validUser.password })
-        expect(result.status).to.be.equal(200)
+   
+    it('01. É possível realizar o login com sucesso.', async () => {
+        sinon.stub(usersModel, 'findOne').resolves({ dataValues: validUser } as any);
+        const result = await chai.request(app).post('/login').send({ email: validUser.email, password: "secret_admin" });
+        expect(result.status).to.be.equal(200);
         expect(result.body).to.have.property('token');
-    })
+    });
 
     it('02. Verifica se o email foi informado', async () => {
-        const result = await chai.request(app).post('/login').send({ password: validUser.password })
+        const result = await chai.request(app).post('/login').send({ password: invalidUser.password })
         expect(result.status).to.be.equal(400);
         expect(result.body).to.be.deep.equal({message: 'All fields must be filled'})
     })
 
     it('03. Verifica se a senha foi informada', async () => {
-        const result = await chai.request(app).post('/login').send({ password: validUser.email })
+        const result = await chai.request(app).post('/login').send({ email: validUser.email })
         expect(result.status).to.be.equal(400);
         expect(result.body).to.be.deep.equal({message: 'All fields must be filled'})
     })
@@ -72,15 +74,8 @@ describe('Testes login', () => {
         expect(result.body).to.have.property('role');
         expect(result.body.role).to.have.equal('admin');
     });
-    
-    it('08. É possível realizar o login com sucesso.', async () => {
-        sinon.stub(usersModel, 'findOne').resolves({ dataValues: validUser } as any);
-        const result = await chai.request(app).post('/login').send({ email: validUser.email, password: "secret_admin" });
-        expect(result.status).to.be.equal(200);
-        expect(result.body).to.have.property('token');
-    });
 
-    it('09. retorna "Token not found" se o token for incorreto', async () => {
+    it('08. retorna "Token not found" se o token for incorreto', async () => {
         const result = await chai.request(app).get('/login/validate');
         expect(result.status).to.be.equal(400);
         expect(result.body.message).to.have.equal('Token not found');
