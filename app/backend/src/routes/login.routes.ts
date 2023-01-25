@@ -7,6 +7,6 @@ const routers = Router();
 
 const user = new UsersController();
 
-routers.post('/', validateLogin, user.findUser); 
+routers.post('/', validateLogin, user.findUser);
 
 export default routers;
