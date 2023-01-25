@@ -30,16 +30,4 @@ describe('Teste teams', () => {
         expect(result.status).to.be.equal(200);
         expect(result.body).to.be.an('array')
     });
-    
-
-
-    // it('', async () => {
-
-    // })
-
-
-    // it('', async () => {
-
-    // })
-    
 })

@@ -28,6 +28,7 @@ const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWlu
 
 describe('Testes login', () => {
     afterEach(sinon.restore)
+    
     it('01. Verifica se o login foi feito com sucesso', async () => {
         const result = await chai.request(app).post('/login').send({ email: validUser.email, password: validUser.password })
         expect(result.status).to.be.equal(200)
@@ -72,7 +73,6 @@ describe('Testes login', () => {
         expect(result.body.role).to.have.equal('admin');
     });
     
-
     it('08. É possível realizar o login com sucesso.', async () => {
         sinon.stub(usersModel, 'findOne').resolves({ dataValues: validUser } as any);
         const result = await chai.request(app).post('/login').send({ email: validUser.email, password: "secret_admin" });
