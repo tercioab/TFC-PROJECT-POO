@@ -1,5 +1,6 @@
 import * as jwt from 'jsonwebtoken';
 import { SignOptions } from 'jsonwebtoken';
+import { Request, Response, NextFunction } from 'express';
 import IUser from '../interface/IUser';
 
 export default class JWT {
@@ -16,8 +17,14 @@ export default class JWT {
     return token;
   }
 
-  public verifyToken(token: string) {
-    const result = jwt.verify(token, this._secret);
-    return result;
+  public verifyToken(req: Request, res: Response, next: NextFunction) {
+    const { authorization } = req.headers;
+    if (!authorization) {
+      return res.status(400).json({ message: 'Token not found' });
+    }
+
+    const decode = jwt.verify(authorization, this._secret);
+    req.body.user = decode;
+    next();
   }
 }
