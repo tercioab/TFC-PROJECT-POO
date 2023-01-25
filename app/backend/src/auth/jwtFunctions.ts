@@ -24,6 +24,7 @@ export default class JWT {
     }
 
     const decode = jwt.verify(authorization, this._secret);
+    
     req.body.user = decode;
     next();
   }

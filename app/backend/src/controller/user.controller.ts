@@ -17,6 +17,15 @@ class UserController {
       res.status(status).json({ message });
     }
   }
+
+  async userRole (req: Request, res: Response) {
+    const { role } = req.body.user;
+    try {
+      res.status(200).json({ role });
+    } catch (e) {
+      console.log(e)
+   }
+  };
 }
 
 export default UserController;
