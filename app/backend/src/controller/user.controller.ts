@@ -24,7 +24,6 @@ class UserController {
   }
 
   async findUser(req: Request, res: Response) {
-    console.log(this, '<<<<<<<<<<<<');
     const { email, password } = req.body;
     const { status, message } = await this._userService.findUser(email, password);
     if (status === 200) {
