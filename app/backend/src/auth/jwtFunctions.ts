@@ -5,6 +5,7 @@ import IUser from '../interface/IUser';
 export default class JWT {
   private _secret: string;
   private _jwtConfig: SignOptions;
+
   constructor() {
     this._secret = process.env.JWT_SECRET || 'mysecret';
     this._jwtConfig = { algorithm: 'HS256', expiresIn: '10h' };
