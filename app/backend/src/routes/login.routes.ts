@@ -1,10 +1,12 @@
 import { Router } from 'express';
-import validateLogin from '../middlewares/user.middlewares';
+// import validateLogin from '../middlewares/user.middlewares';
 
-import UsersController from '../controller/user.controller';
+import UserController from '../controller/user.controller';
 
 const routers = Router();
 
-routers.post('/', validateLogin, UsersController.findUser);
+const user = new UserController();
+
+routers.post('/', (req, res) => user.findUser(req, res));
 
 export default routers;

@@ -3,7 +3,7 @@ import usersModel from '../database/models/User.model';
 import JWT from '../auth/jwtFunctions';
 import IResponse from '../interface/IResponse';
 
-class UserService {
+export default class UserService {
   private _usersModel;
   private _jwt;
 
@@ -28,5 +28,3 @@ class UserService {
     return { status: 200, message: userToken };
   }
 }
-
-export default new UserService();
