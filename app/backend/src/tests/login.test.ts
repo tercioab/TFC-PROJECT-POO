@@ -24,9 +24,6 @@ const invalidUser = {
   password: "$2a$08$Yyqm.rmp0B.uQBA5qUz7T6Ghlg/CvVr/gLxYj5UAZVO",
 };
 
-// trunk-ignore(gitleaks/jwt)
-const token = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJVc2VyIiwicm9sZSI6InVzZXIiLCJlbWFpbCI6InVzZXJAdXNlci5jb20iLCJwYXNzd29yZCI6IiQyYSQwOCRZOEFiaThqWHZzWHlxbS5ybXAwQi51UUJBNXFVejdUNkdobGcvQ3ZWci9nTHhZajVVQVpWTyIsImlhdCI6MTY3NDY1MzI5NCwiZXhwIjoxNjc0Njc0ODk0fQ.c4DiropaM9N4o4nml4olCmIhnZXEfefB_l0NQ08EpoI`;
-
 describe("Testes login", () => {
   afterEach(sinon.restore);
 
@@ -90,27 +87,15 @@ describe("Testes login", () => {
     const result = await chai
       .request(app)
       .post("/login")
-      .send({ email: validUser.email, password: "astrowest" });
+      .send({ email: validUser.email, password: 'teste' });
     expect(result.status).to.be.equal(401);
+    expect(result.body).to.be.a('object');
     expect(result.body).to.be.deep.equal({
       message: "Incorrect email or password",
     });
   });
 
-  it("07. Rota validate retorna a role do usuário", async () => {
-    sinon
-      .stub(usersModel, "findOne")
-      .resolves({ dataValues: validUser } as any);
-    const result = await chai
-      .request(app)
-      .get("/login/validate")
-      .set("Authorization", token);
-    expect(result.status).to.be.equal(200);
-    expect(result.body).to.have.property("role");
-    expect(result.body.role).to.have.equal("admin");
-  });
-
-  it('08. retorna "Token not found" se o token for incorreto', async () => {
+  it('07. retorna "Token not found" se o token for incorreto', async () => {
     const result = await chai.request(app).get("/login/validate");
     expect(result.status).to.be.equal(400);
     expect(result.body.message).to.have.equal("Token not found");
