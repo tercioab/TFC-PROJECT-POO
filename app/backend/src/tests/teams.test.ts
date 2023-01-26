@@ -17,6 +17,7 @@ describe('Teste teams', () => {
         const result = await chai.request(app).get('/teams/2');
         expect(result.status).to.be.equal(200);
         expect(result.body.teamName).to.be.deep.equal("Bahia");
+        expect(result.body.id).to.be.deep.equal(2);
     });
     
     it('Retorna erro se o id não existir', async () => {

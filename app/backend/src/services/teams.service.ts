@@ -10,4 +10,9 @@ export default class TeamService {
   public async allTeams() {
     return this._teamModel.findAll();
   }
+
+  public async teamsById(id: string) {
+    const team = await this._teamModel.findOne({ where: { id } });
+    return team;
+  }
 }
