@@ -25,7 +25,7 @@ class App {
     this.app.use(express.json());
     this.app.use(accessControl);
     this.app.use('/login', login);
-    this.app.use('/team', team);
+    this.app.use('/teams', team);
   }
 
   public start(PORT: string | number):void {
