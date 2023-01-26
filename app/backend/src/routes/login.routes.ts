@@ -1,8 +1,8 @@
-import { Router } from "express";
-import validateLogin from "../middlewares/user.middlewares";
-import JWT from "../auth/jwtFunctions";
+import { Router } from 'express';
+import validateLogin from '../middlewares/user.middlewares';
+import JWT from '../auth/jwtFunctions';
 
-import UserController from "../controller/user.controller";
+import UserController from '../controller/user.controller';
 
 const routers = Router();
 
@@ -10,11 +10,11 @@ const user = new UserController();
 const jwt = new JWT();
 
 routers.get(
-  "/validate",
+  '/validate',
   (req, res, next) => jwt.verifyToken(req, res, next),
-  (req, res) => user.userRole(req, res)
+  (req, res) => user.userRole(req, res),
 );
 
-routers.post("/", validateLogin, (req, res) => user.findUser(req, res));
+routers.post('/', validateLogin, (req, res) => user.findUser(req, res));
 
 export default routers;
