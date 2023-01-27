@@ -20,11 +20,13 @@ export default class UserService {
     if (!user) {
       return { status, message };
     }
+
     const checkPassword = await bcrypt.compare(password, user.dataValues.password);
     if (checkPassword === false) {
       return { status, message };
     }
-    const userToken = this._jwt.generateToken(user.dataValues);
-    return { status: 200, message: userToken };
+
+    const token = this._jwt.generateToken(user.dataValues);
+    return { status: 200, token };
   }
 }

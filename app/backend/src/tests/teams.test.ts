@@ -16,10 +16,10 @@ describe('Teste teams', () => {
     it('Retorna o time de acordo com o id', async () => {
         const result = await chai.request(app).get('/teams/2');
         expect(result.status).to.be.equal(200);
-        expect(result.body.teamName).to.be.deep.equal("Bahia");
+        expect(result.body.team).to.be.deep.equal("Bahia");
         expect(result.body.id).to.be.deep.equal(2);
     });
-    
+
     it('Retorna erro se o id não existir', async () => {
         const result = await chai.request(app).get('/teams/2000');
         expect(result.status).to.be.equal(401);
