@@ -8,7 +8,7 @@ export default class JWT {
   private _jwtConfig: SignOptions;
 
   constructor() {
-    this._secret = process.env.JWT_SECRET || 'mysecret';
+    this._secret = process.env.JWT_SECRET || 'jwt_secret';
     this._jwtConfig = { algorithm: 'HS256', expiresIn: '10h' };
   }
 
