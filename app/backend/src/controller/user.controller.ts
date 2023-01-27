@@ -11,15 +11,12 @@ class UserController {
 
   async findUser(req: Request, res: Response) {
     const { email, password } = req.body;
-    const { status, message } = await this._userService.findUser(
+    const { status, message, token } = await this._userService.findUser(
       email,
       password,
     );
-    if (status === 200) {
-      res.status(status).json({ token: message });
-    } else {
-      res.status(status).json({ message });
-    }
+    const jsonResponse = token ? { token } : { message };
+    return res.status(status).json(jsonResponse);
   }
 
   userRole = async (req: Request, res: Response) => {
