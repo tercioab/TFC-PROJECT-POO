@@ -1,4 +1,5 @@
 export default interface Response {
   status: number;
-  message: string;
+  message?: string;
+  token?: string;
 }
