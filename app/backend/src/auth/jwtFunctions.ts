@@ -22,9 +22,12 @@ export default class JWT {
     if (!authorization) {
       return res.status(400).json({ message: 'Token not found' });
     }
-
-    const decode = jwt.verify(authorization, this._secret);
-    req.body.user = decode;
-    next();
+    try {
+      const decode = jwt.verify(authorization, this._secret);
+      req.body.user = decode;
+      next();
+    } catch (e) {
+      return res.status(401).json({ message: 'Token must be a valid token' });
+    }
   }
 }
