@@ -64,4 +64,12 @@ export default class MatchService {
     );
     return { status: 200, message: 'Finished' };
   }
+
+  public async updateMatch(homeTeamGoals: number, awayTeamGoals: number, id: string) {
+    await this._matchModel.update(
+      { homeTeamGoals, awayTeamGoals },
+      { where: { id } },
+
+    );
+  }
 }
