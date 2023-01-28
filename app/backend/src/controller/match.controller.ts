@@ -15,8 +15,11 @@ export default class MatchController {
 
   public async progressMatch(req: Request, res: Response) {
     const { inProgress } = req.query;
-    const response = inProgress === 'true';
-    const matches = await this._matchService.progressMatch(response);
-    return res.status(200).json(matches);
+
+    const queryOrNot = inProgress === 'true';
+    const allMatches = await this._matchService.allMatches();
+    const matchesInProgress = await this._matchService.progressMatch(queryOrNot);
+    const response = queryOrNot ? matchesInProgress : allMatches;
+    return res.status(200).json(response);
   }
 }
