@@ -66,10 +66,11 @@ export default class MatchService {
   }
 
   public async updateMatch(homeTeamGoals: number, awayTeamGoals: number, id: string) {
-    await this._matchModel.update(
+    const result = await this._matchModel.update(
       { homeTeamGoals, awayTeamGoals },
       { where: { id } },
 
     );
+    return result;
   }
 }
