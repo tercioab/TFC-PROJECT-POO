@@ -6,7 +6,7 @@ const routers = Router();
 
 const matches = new MatchController();
 
-// routers.get('/', (req, res) => match.progressMatch(req, res));
 routers.get('/', (req, res) => matches.getMatches(req, res));
+routers.post('/', (req, res) => matches.createMatch(req, res));
 
 export default routers;
