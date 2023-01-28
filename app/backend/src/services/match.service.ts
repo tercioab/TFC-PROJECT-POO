@@ -17,7 +17,7 @@ export default class MatchService {
     this._teamService = new TeamService();
   }
 
-  public async allMatches() {
+  public async all() {
     const matches = await this._matchModel.findAll({
       include: [
         { model: teamModel, as: 'homeTeam', attributes: ['teamName'] },
@@ -27,7 +27,7 @@ export default class MatchService {
     return matches;
   }
 
-  public async progressMatch(inProgress: boolean) {
+  public async progress(inProgress: boolean) {
     const matches = await this._matchModel.findAll({
       where: { inProgress },
       include: [
@@ -38,7 +38,7 @@ export default class MatchService {
     return matches;
   }
 
-  public async createMatch(body: IMatch):Promise<ICreateMatch> {
+  public async create(body: IMatch):Promise<ICreateMatch> {
     const checkTeamsResponse = await this._teamService.checkTeams(body);
     const match = await this._matchModel.create({
       ...body,
@@ -52,7 +52,7 @@ export default class MatchService {
     return { status: 201, match };
   }
 
-  public async finalityMatch(id: string) {
+  public async finality(id: string) {
     const match = this._matchModel.findOne({ where: { id } });
     if (!match) {
       return { status: 401, message: 'match not found' };
@@ -64,7 +64,7 @@ export default class MatchService {
     return { status: 200, message: 'Finished' };
   }
 
-  public async updateMatch(homeTeamGoals: number, awayTeamGoals: number, id: string) {
+  public async update(homeTeamGoals: number, awayTeamGoals: number, id: string) {
     const result = await this._matchModel.update(
       { homeTeamGoals, awayTeamGoals },
       { where: { id } },
