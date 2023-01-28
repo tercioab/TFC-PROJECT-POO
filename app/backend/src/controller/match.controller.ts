@@ -25,4 +25,10 @@ export default class MatchController {
     const response = match || { message };
     return res.status(status).json(response);
   }
+
+  public async finalityMatch(req: Request, res: Response) {
+    const { id } = req.params;
+    const { status, message } = await this._matchService.finalityMatch(id);
+    return res.status(status).json({ message });
+  }
 }

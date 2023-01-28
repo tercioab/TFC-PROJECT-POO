@@ -38,7 +38,7 @@ export default class MatchService {
     const { homeTeamId, awayTeamId } = body;
     const homeTeam = await this._teamModel.findAll({ where: { id: homeTeamId } });
     const awayTeam = await this._teamModel.findAll({ where: { id: awayTeamId } });
-    console.log(awayTeam);
+
     if (!homeTeam.length || !awayTeam.length) {
       return { status: 404, message: 'There is no team with such id!' };
     }
@@ -47,5 +47,17 @@ export default class MatchService {
       inProgress: true,
     });
     return { status: 201, match };
+  }
+
+  public async finalityMatch(id: string) {
+    const match = this._matchModel.findOne({ where: { id } });
+    if (!match) {
+      return { status: 401, message: 'match not found' };
+    }
+    await this._matchModel.update(
+      { inProgress: false },
+      { where: { id } },
+    );
+    return { status: 200, message: 'Finished' };
   }
 }
