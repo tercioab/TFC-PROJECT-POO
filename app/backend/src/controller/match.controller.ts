@@ -9,21 +9,26 @@ export default class MatchController {
   }
 
   public async allMatches(req: Request, res: Response) {
-    const matches = await this._matchService.allMatches();
-    return res.status(200).json(matches);
-  }
-
-  public async progressMatch(req: Request, res: Response) {
     const { inProgress } = req.query;
 
-    const progressUndenined = inProgress === undefined;
-    if (!progressUndenined) {
+    if (inProgress === undefined) {
       const allMatches = await this._matchService.allMatches();
-      res.status(200).json(allMatches);
+      return res.status(200).json(allMatches);
     }
 
-    const progressOrNot = inProgress === 'true';
-    const matchesInProgress = await this._matchService.progressMatch(progressOrNot);
+    const matchesInProgress = await this._matchService.progressMatch(inProgress === 'true');
     return res.status(200).json(matchesInProgress);
   }
+
+  // public async progressMatch(req: Request, res: Response) {
+  //   const { inProgress } = req.query;
+
+  //   if (inProgress === undefined) {
+  //     const allMatches = await this._matchService.allMatches();
+  //     return res.status(200).json(allMatches);
+  //   }
+
+  //   const matchesInProgress = await this._matchService.progressMatch(inProgress === 'true');
+  //   return res.status(200).json(matchesInProgress);
+  // }
 }
