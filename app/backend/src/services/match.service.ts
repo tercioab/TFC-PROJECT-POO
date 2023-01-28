@@ -36,10 +36,14 @@ export default class MatchService {
 
   public async createMatch(body: IMatch):Promise<ICreateMatch> {
     const { homeTeamId, awayTeamId } = body;
-    const homeTeam = await this._teamModel.findAll({ where: { id: homeTeamId } });
-    const awayTeam = await this._teamModel.findAll({ where: { id: awayTeamId } });
-
-    if (!homeTeam.length || !awayTeam.length) {
+    const homeTeam = await this._teamModel.findOne({ where: { id: homeTeamId } });
+    const awayTeam = await this._teamModel.findOne({ where: { id: awayTeamId } });
+    const idAwayTeam = awayTeam?.dataValues.id;
+    const idHomeTeam = homeTeam?.dataValues.id;
+    if (idAwayTeam === idHomeTeam) {
+      return { status: 422, message: 'It is not possible to create a match with two equal teams' };
+    }
+    if (!homeTeam || !awayTeam) {
       return { status: 404, message: 'There is no team with such id!' };
     }
     const match = await this._matchModel.create({
