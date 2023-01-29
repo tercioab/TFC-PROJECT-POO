@@ -8,11 +8,11 @@ export default class TeamService {
     this._teamModel = teamModel;
   }
 
-  public async allTeams() {
+  public async all() {
     return this._teamModel.findAll();
   }
 
-  public async teamsById(id: string | number) {
+  public async byId(id: string | number) {
     const team = await this._teamModel.findOne({ where: { id } });
     return team;
   }
@@ -20,8 +20,8 @@ export default class TeamService {
   public async checkTeams(body: IMatch) {
     const { homeTeamId, awayTeamId } = body;
 
-    const homeTeam = await this.teamsById(homeTeamId);
-    const awayTeam = await this.teamsById(awayTeamId);
+    const homeTeam = await this.byId(homeTeamId);
+    const awayTeam = await this.byId(awayTeamId);
 
     if (awayTeam?.dataValues.id === homeTeam?.dataValues.id) {
       return { status: 422, message: 'It is not possible to create a match with two equal teams' };
