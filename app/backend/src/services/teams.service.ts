@@ -30,6 +30,6 @@ export default class TeamService {
 
     if (!homeTeam || !awayTeam) {
       return { status: 404, message: 'There is no team with such id!' };
-    } return true;
+    } return false;
   }
 }

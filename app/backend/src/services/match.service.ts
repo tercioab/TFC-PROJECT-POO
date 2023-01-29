@@ -45,13 +45,7 @@ export default class MatchService {
       inProgress: true,
     });
 
-    // if (checkTeamsResponse !== true) {
-    //   return checkTeamsResponse;
-    // }
-
-    // return { status: 201, match };
-
-    return checkTeamsResponse !== true ? checkTeamsResponse : { status: 201, match };
+    return checkTeamsResponse !== false ? checkTeamsResponse : { status: 201, match };
   }
 
   public async finality(id: string): Promise<IResponseMatch> {
