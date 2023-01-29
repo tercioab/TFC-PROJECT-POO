@@ -1,9 +1,9 @@
 import Match from '../database/models/Match.model';
 
- type ICreateMatch = {
+ type IResponseMatch = {
    message?:string,
    match?: Match,
    status: number,
  };
 
-export default ICreateMatch;
+export default IResponseMatch;

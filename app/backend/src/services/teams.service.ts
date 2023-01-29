@@ -14,9 +14,8 @@ export default class TeamService {
 
   public async byId(id: string | number) {
     const team = await this._teamModel.findOne({ where: { id } });
-    if (!team) {
-      return { status: 401, message: 'There is no team with such id!' };
-    } return { status: 200, team };
+    return team ? { status: 200, team }
+      : { status: 404, message: 'There is no team with such id!' };
   }
 
   public async checkTeams(body: IMatch) {

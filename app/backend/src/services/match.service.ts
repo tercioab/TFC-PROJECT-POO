@@ -1,4 +1,4 @@
-import ICreateMatch from '../interface/ICreateMatch';
+import IResponseMatch from '../interface/IResponseMatch';
 import IMatch from '../interface/IMatch';
 
 import matchModel from '../database/models/Match.model';
@@ -17,7 +17,7 @@ export default class MatchService {
     this._teamService = new TeamService();
   }
 
-  public async all() {
+  public async all(): Promise<matchModel[]> {
     const matches = await this._matchModel.findAll({
       include: [
         { model: this._teamModel, as: 'homeTeam', attributes: ['teamName'] },
@@ -27,7 +27,7 @@ export default class MatchService {
     return matches;
   }
 
-  public async InProgress(inProgress: boolean) {
+  public async InProgress(inProgress: boolean): Promise<matchModel[]> {
     const matches = await this._matchModel.findAll({
       where: { inProgress },
       include: [
@@ -38,7 +38,7 @@ export default class MatchService {
     return matches;
   }
 
-  public async create(body: IMatch):Promise<ICreateMatch> {
+  public async create(body: IMatch): Promise<IResponseMatch> {
     const checkTeamsResponse = await this._teamService.checkTeams(body);
     const match = await this._matchModel.create({
       ...body,
@@ -52,7 +52,7 @@ export default class MatchService {
     return { status: 201, match };
   }
 
-  public async finality(id: string) {
+  public async finality(id: string): Promise<IResponseMatch> {
     const match = this._matchModel.findOne({ where: { id } });
     if (!match) {
       return { status: 401, message: 'match not found' };

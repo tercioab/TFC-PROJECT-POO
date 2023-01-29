@@ -9,6 +9,7 @@ const matches = new MatchController();
 const jwt = new JWT();
 
 routers.get('/', (req, res) => matches.get(req, res));
+
 routers.post(
   '/',
   (req, res, next) => jwt.verifyToken(req, res, next),

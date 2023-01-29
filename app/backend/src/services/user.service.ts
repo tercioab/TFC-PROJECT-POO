@@ -21,6 +21,7 @@ export default class UserService {
     }
 
     const checkPassword = await bcrypt.compare(password, user.dataValues.password);
+
     if (checkPassword === false) {
       return { status: 401, message };
     }
