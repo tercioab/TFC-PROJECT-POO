@@ -27,7 +27,7 @@ export default class MatchService {
     return matches;
   }
 
-  public async progress(inProgress: boolean) {
+  public async InProgress(inProgress: boolean) {
     const matches = await this._matchModel.findAll({
       where: { inProgress },
       include: [
