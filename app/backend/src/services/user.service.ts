@@ -15,15 +15,14 @@ export default class UserService {
   public async findUser(email: string, password: string): Promise<IResponse> {
     const user = await this._usersModel.findOne({ where: { email } });
     const message = 'Incorrect email or password';
-    const status = 401;
 
     if (!user) {
-      return { status, message };
+      return { status: 401, message };
     }
 
     const checkPassword = await bcrypt.compare(password, user.dataValues.password);
     if (checkPassword === false) {
-      return { status, message };
+      return { status: 401, message };
     }
 
     const token = this._jwt.generateToken(user.dataValues);
