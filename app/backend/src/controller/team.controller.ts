@@ -15,10 +15,10 @@ export default class TeamMode {
 
   async byId(req: Request, res: Response) {
     const { id } = req.params;
-    const team = await this._teamService.byId(id);
-    if (!team) {
-      return res.status(401).json({ message: 'There is no team with such id!' });
+    const { status, message, team } = await this._teamService.byId(id);
+    if (message) {
+      return res.status(status).json({ message });
     }
-    return res.status(200).json(team);
+    return res.status(status).json(team);
   }
 }

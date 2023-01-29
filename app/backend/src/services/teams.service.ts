@@ -14,14 +14,16 @@ export default class TeamService {
 
   public async byId(id: string | number) {
     const team = await this._teamModel.findOne({ where: { id } });
-    return team;
+    if (!team) {
+      return { status: 401, message: 'There is no team with such id!' };
+    } return { status: 200, team };
   }
 
   public async checkTeams(body: IMatch) {
     const { homeTeamId, awayTeamId } = body;
 
-    const homeTeam = await this.byId(homeTeamId);
-    const awayTeam = await this.byId(awayTeamId);
+    const homeTeam = await this._teamModel.findOne({ where: { id: homeTeamId } });
+    const awayTeam = await this._teamModel.findOne({ where: { id: awayTeamId } });
 
     if (awayTeam?.dataValues.id === homeTeam?.dataValues.id) {
       return { status: 422, message: 'It is not possible to create a match with two equal teams' };
