@@ -39,7 +39,7 @@ export default class MatchService {
   }
 
   public async create(body: IMatch): Promise<IResponseMatch> {
-    const checkTeamsResponseError = await this._teamService.checkTeams(body);
+    const checkTeamsResponseError = await this._teamService.checkTeamsForMatches(body);
     const match = await this._matchModel.create({
       ...body,
       inProgress: true,
