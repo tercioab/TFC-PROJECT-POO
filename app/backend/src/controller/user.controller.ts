@@ -10,10 +10,8 @@ class UserController {
   }
 
   async findUser(req: Request, res: Response) {
-    const { email, password } = req.body;
     const { status, message, token } = await this._userService.findUser(
-      email,
-      password,
+      req.body,
     );
     const jsonResponse = token ? { token } : { message };
     return res.status(status).json(jsonResponse);
