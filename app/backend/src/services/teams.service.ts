@@ -18,7 +18,7 @@ export default class TeamService {
       : { status: 404, message: 'There is no team with such id!' };
   }
 
-  public async checkTeams(body: IMatch) {
+  public async checkTeamsForMatches(body: IMatch) {
     const { homeTeamId, awayTeamId } = body;
 
     const awayTeam = await this._teamModel.findOne({ where: { id: awayTeamId } });
