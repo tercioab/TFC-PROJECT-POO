@@ -1,3 +1,4 @@
+import { Op } from 'sequelize';
 import teamModel from '../database/models/Team.model';
 import IMatch from '../interface/IMatch';
 
@@ -21,14 +22,13 @@ export default class TeamService {
   public async checkTeams(body: IMatch) {
     const { homeTeamId, awayTeamId } = body;
 
-    const homeTeam = await this._teamModel.findOne({ where: { id: homeTeamId } });
-    const awayTeam = await this._teamModel.findOne({ where: { id: awayTeamId } });
+    const teams = await this._teamModel
+      .findAll({ where: { [Op.or]: [{ id: homeTeamId }, { id: awayTeamId }] } });
 
-    if (awayTeam?.dataValues.id === homeTeam?.dataValues.id) {
+    if (teams[0]?.dataValues.id === teams[1]?.dataValues.id) {
       return { status: 422, message: 'It is not possible to create a match with two equal teams' };
     }
-
-    if (!homeTeam || !awayTeam) {
+    if (teams.length < 2) {
       return { status: 404, message: 'There is no team with such id!' };
     } return false;
   }
