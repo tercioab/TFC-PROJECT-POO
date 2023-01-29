@@ -13,9 +13,9 @@ export default class UserService {
   }
 
   public async findUser(email: string, password: string): Promise<IResponse> {
+    const user = await this._usersModel.findOne({ where: { email } });
     const message = 'Incorrect email or password';
     const status = 401;
-    const user = await this._usersModel.findOne({ where: { email } });
 
     if (!user) {
       return { status, message };

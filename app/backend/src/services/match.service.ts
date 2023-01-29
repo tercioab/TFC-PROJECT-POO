@@ -20,8 +20,8 @@ export default class MatchService {
   public async all() {
     const matches = await this._matchModel.findAll({
       include: [
-        { model: teamModel, as: 'homeTeam', attributes: ['teamName'] },
-        { model: teamModel, as: 'awayTeam', attributes: ['teamName'] },
+        { model: this._teamModel, as: 'homeTeam', attributes: ['teamName'] },
+        { model: this._teamModel, as: 'awayTeam', attributes: ['teamName'] },
       ],
     });
     return matches;
@@ -31,8 +31,8 @@ export default class MatchService {
     const matches = await this._matchModel.findAll({
       where: { inProgress },
       include: [
-        { model: teamModel, as: 'homeTeam', attributes: ['teamName'] },
-        { model: teamModel, as: 'awayTeam', attributes: ['teamName'] },
+        { model: this._teamModel, as: 'homeTeam', attributes: ['teamName'] },
+        { model: this._teamModel, as: 'awayTeam', attributes: ['teamName'] },
       ],
     });
     return matches;
