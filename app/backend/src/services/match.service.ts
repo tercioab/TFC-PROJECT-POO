@@ -64,7 +64,8 @@ export default class MatchService {
     return { status: 200, message: 'Finished' };
   }
 
-  public async update(homeTeamGoals: number, awayTeamGoals: number, id: string) {
+  public async update(body: IMatch, id: string) {
+    const { homeTeamGoals, awayTeamGoals } = body;
     const result = await this._matchModel.update(
       { homeTeamGoals, awayTeamGoals },
       { where: { id } },
