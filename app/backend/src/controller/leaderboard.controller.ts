@@ -12,7 +12,7 @@ export default class LeaderBoardController {
     this._totalPoints = 0;
   }
 
-  public calculatePoints = (teams: IMatch[]) => {
+  public totalPoints = (teams: IMatch[]) => {
     let totalPoints = 0;
     teams?.forEach((match) => {
       if (match.homeTeamGoals > match.awayTeamGoals) {
@@ -25,18 +25,18 @@ export default class LeaderBoardController {
     return totalPoints;
   };
 
-  public async table() {
+  public async leaderBoardtable() {
     const service = await this._leaderService.getAllMatches();
     const teste = service.map((matches) => ({
       name: matches.teamName,
-      totalPoints: this.calculatePoints(matches.homeTeams),
+      totalPoints: this.totalPoints(matches.homeTeams),
     }));
 
     return teste;
   }
 
   public async tableTest(req: Request, res: Response) {
-    const result = await this.table();
+    const result = await this.leaderBoardtable();
     return res.status(200).json(result);
   }
 }
