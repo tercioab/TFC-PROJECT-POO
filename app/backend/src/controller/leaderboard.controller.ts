@@ -55,6 +55,8 @@ export default class LeaderBoardController {
 
   public goalsFavor = (teams: IMatch[]) => teams?.reduce((a, b) => a + b.homeTeamGoals, 0);
 
+  public goalsOwn = (teams: IMatch[]) => teams?.reduce((a, b) => a + b.awayTeamGoals, 0);
+
   public async leaderBoardtable() {
     const service = await this._leaderService.getAllMatches();
     const teste = service.map(({ homeMatches, teamName }) => ({
@@ -65,6 +67,8 @@ export default class LeaderBoardController {
       totalDraws: this.totalDraws(homeMatches),
       totalLosses: this.totalLosses(homeMatches),
       goalsFavor: this.goalsFavor(homeMatches),
+      goalsOwn: this.goalsOwn(homeMatches),
+      goalsBalance: this.goalsFavor(homeMatches) - this.goalsOwn(homeMatches),
     }));
 
     return teste;
