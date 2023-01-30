@@ -12,7 +12,7 @@ export default class LeaderboardService {
     this._teamModel = teamModel;
   }
 
-  public async getAllMatches() {
+  public async getAllHomeMatches() {
     const matches = await this._teamModel.findAll({
       include: [
         {
