@@ -23,7 +23,6 @@ export default class LeaderboardService {
         },
       ],
     }) as unknown as IHomeTeam[];
-
     return matches;
   }
 }

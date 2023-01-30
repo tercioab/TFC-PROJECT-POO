@@ -24,8 +24,8 @@ export default class LeaderBoardController {
   //     return totalPoints;
   //   }
 
-  public async tableTest(req: Request, res: Response) {
-    const result = this._leaderService.getAllMatches();
-    return res.status(200).json(result);
-  }
+//   public async tableTest(req: Request, res: Response) {
+//     const result = await this._leaderService.getAllMatches();
+//     return res.status(200).json(result);
+//   }
 }
