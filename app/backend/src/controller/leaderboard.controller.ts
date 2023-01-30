@@ -12,8 +12,9 @@ export default class LeaderBoardController {
   }
 
   //   public async calculatePoints() {
+  //     const leaderService = await this._leaderService.getAllMatches();
   //     let totalPoints = 0;
-  //     this._matches.forEach((match) => {
+  //     leaderService.forEach((match) => {
   //       if (match.homeTeamGoals > match.awayTeamGoals) {
   //         totalPoints += 3;
   //       }
