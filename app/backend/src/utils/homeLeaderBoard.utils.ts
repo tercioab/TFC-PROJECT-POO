@@ -1,15 +1,7 @@
-import { Request, Response } from 'express';
-
+import IHomeTeam from '../interface/IHomeTeam';
 import IMatch from '../interface/IMatch';
-import LeaderboardService from '../services/leaderBoard.service';
 
-export default class LeaderBoardController {
-  private _leaderService;
-
-  constructor() {
-    this._leaderService = new LeaderboardService();
-  }
-
+export default class HomeLeaderBoard {
   private totalPoints = (teams: IMatch[]) => {
     let totalPoints = 0;
     teams?.forEach(({ homeTeamGoals, awayTeamGoals }) => {
@@ -57,9 +49,8 @@ export default class LeaderBoardController {
 
   private goalsOwn = (teams: IMatch[]) => teams?.reduce((a, b) => a + b.awayTeamGoals, 0);
 
-  private async leaderBoardtable() {
-    const getHomeMatches = await this._leaderService.getAllHomeMatches();
-    const table = getHomeMatches.map(({ homeMatches, teamName }) => ({
+  public async leaderBoardtable(serviceLeader: IHomeTeam[]) {
+    const table = serviceLeader.map(({ homeMatches, teamName }) => ({
       name: teamName,
       totalPoints: this.totalPoints(homeMatches),
       totalGames: homeMatches.length,
@@ -72,22 +63,12 @@ export default class LeaderBoardController {
       efficiency: (Number([(this.totalPoints(homeMatches)) / (homeMatches.length * 3)]) * 100)
         .toFixed(2),
 
-    }));
-
-    return table;
-  }
-
-  private async orderLeaderBoard() {
-    const leaderBoard = await this.leaderBoardtable();
-    return leaderBoard.sort((a, b) => b.totalPoints - a.totalPoints
+    })).sort((a, b) => b.totalPoints - a.totalPoints
     || b.totalVictories - a.totalVictories
     || b.goalsBalance - a.goalsBalance
     || b.goalsFavor - a.goalsFavor
     || b.goalsOwn - a.goalsOwn);
-  }
 
-  public async leaderBoard(req: Request, res: Response) {
-    const result = await this.orderLeaderBoard();
-    return res.status(200).json(result);
+    return table;
   }
 }
