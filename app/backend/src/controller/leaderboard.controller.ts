@@ -10,7 +10,7 @@ export default class LeaderBoardController {
     this._leaderService = new LeaderboardService();
   }
 
-  public totalPoints = (teams: IMatch[]) => {
+  private totalPoints = (teams: IMatch[]) => {
     let totalPoints = 0;
     teams?.forEach(({ homeTeamGoals, awayTeamGoals }) => {
       if (homeTeamGoals > awayTeamGoals) {
@@ -23,7 +23,7 @@ export default class LeaderBoardController {
     return totalPoints;
   };
 
-  public totalVictories = (teams: IMatch[]) => {
+  private totalVictories = (teams: IMatch[]) => {
     let totalPoints = 0;
     teams?.forEach(({ homeTeamGoals, awayTeamGoals }) => {
       if (homeTeamGoals > awayTeamGoals) {
@@ -33,7 +33,7 @@ export default class LeaderBoardController {
     return totalPoints;
   };
 
-  public totalLosses = (teams: IMatch[]) => {
+  private totalLosses = (teams: IMatch[]) => {
     let totalLosses = 0;
     teams?.forEach(({ homeTeamGoals, awayTeamGoals }) => {
       if (homeTeamGoals < awayTeamGoals) {
@@ -43,7 +43,7 @@ export default class LeaderBoardController {
     return totalLosses;
   };
 
-  public totalDraws = (teams: IMatch[]) => {
+  private totalDraws = (teams: IMatch[]) => {
     let totalDraws = 0;
     teams?.forEach(({ homeTeamGoals, awayTeamGoals }) => {
       if (homeTeamGoals === awayTeamGoals) {
@@ -53,9 +53,9 @@ export default class LeaderBoardController {
     return totalDraws;
   };
 
-  public goalsFavor = (teams: IMatch[]) => teams?.reduce((a, b) => a + b.homeTeamGoals, 0);
+  private goalsFavor = (teams: IMatch[]) => teams?.reduce((a, b) => a + b.homeTeamGoals, 0);
 
-  public goalsOwn = (teams: IMatch[]) => teams?.reduce((a, b) => a + b.awayTeamGoals, 0);
+  private goalsOwn = (teams: IMatch[]) => teams?.reduce((a, b) => a + b.awayTeamGoals, 0);
 
   public async leaderBoardtable() {
     const service = await this._leaderService.getAllMatches();
@@ -77,8 +77,7 @@ export default class LeaderBoardController {
     return teste;
   }
 
-  public async tableTest(req: Request, res: Response) {
-    // const result = await this._leaderService.getAllMatches();
+  private async tableTest(req: Request, res: Response) {
     const result = await this.leaderBoardtable();
     return res.status(200).json(result);
   }
