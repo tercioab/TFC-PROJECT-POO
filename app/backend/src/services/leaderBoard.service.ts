@@ -12,12 +12,12 @@ export default class LeaderboardService {
     this._teamModel = teamModel;
   }
 
-  public async getAllHomeTeams() {
+  public async getAllMatches() {
     const matches = await this._teamModel.findAll({
       include: [
         {
           model: this._matchModel,
-          as: 'homeTeam',
+          as: 'homeTeams',
           attributes: { exclude: ['id', 'inProgress'] },
           where: { inProgress: false },
         },
