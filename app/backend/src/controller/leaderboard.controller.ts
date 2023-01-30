@@ -30,12 +30,14 @@ export default class LeaderBoardController {
     const teste = service.map((matches) => ({
       name: matches.teamName,
       totalPoints: this.totalPoints(matches.homeTeams),
+      totalGames: matches.homeTeams.length,
     }));
 
     return teste;
   }
 
   public async tableTest(req: Request, res: Response) {
+    // const result = await this._leaderService.getAllMatches();
     const result = await this.leaderBoardtable();
     return res.status(200).json(result);
   }
