@@ -1,32 +1,42 @@
 import { Request, Response } from 'express';
-// import Team from '../database/models/Team.model';
-// import IMatch from '../interface/IMatch';
+
+import IMatch from '../interface/IMatch';
 import LeaderboardService from '../services/leaderBoard.service';
 
 export default class LeaderBoardController {
-//   private _matches: IMatch[];
   private _leaderService;
+  private _totalPoints;
 
   constructor() {
     this._leaderService = new LeaderboardService();
+    this._totalPoints = 0;
   }
 
-  //   public async calculatePoints() {
-  //     const leaderService = await this._leaderService.getAllMatches();
-  //     let totalPoints = 0;
-  //     leaderService.forEach((match) => {
-  //       if (match.homeTeamGoals > match.awayTeamGoals) {
-  //         totalPoints += 3;
-  //       }
-  //       if (match.homeTeamGoals === match.awayTeamGoals) {
-  //         totalPoints += 1;
-  //       }
-  //     });
-  //     return totalPoints;
-  //   }
+  public calculatePoints = (teams: IMatch[]) => {
+    let totalPoints = 0;
+    teams?.forEach((match) => {
+      if (match.homeTeamGoals > match.awayTeamGoals) {
+        totalPoints += 3;
+      }
+      if (match.homeTeamGoals === match.awayTeamGoals) {
+        totalPoints += 1;
+      }
+    });
+    return totalPoints;
+  };
 
-//   public async tableTest(req: Request, res: Response) {
-//     const result = await this._leaderService.getAllMatches();
-//     return res.status(200).json(result);
-//   }
+  public async table() {
+    const service = await this._leaderService.getAllMatches();
+    const teste = service.map((matches) => ({
+      name: matches.teamName,
+      totalPoints: this.calculatePoints(matches.homeTeams),
+    }));
+
+    return teste;
+  }
+
+  public async tableTest(req: Request, res: Response) {
+    const result = await this.table();
+    return res.status(200).json(result);
+  }
 }
