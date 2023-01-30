@@ -69,6 +69,9 @@ export default class LeaderBoardController {
       goalsFavor: this.goalsFavor(homeMatches),
       goalsOwn: this.goalsOwn(homeMatches),
       goalsBalance: this.goalsFavor(homeMatches) - this.goalsOwn(homeMatches),
+      efficiency: (Number([(this.totalPoints(homeMatches)) / (homeMatches.length * 3)]) * 100)
+        .toFixed(2),
+
     }));
 
     return teste;
