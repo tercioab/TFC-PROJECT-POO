@@ -24,13 +24,13 @@ export default class LeaderBoardController {
   };
 
   private totalVictories = (teams: IMatch[]) => {
-    let totalPoints = 0;
+    let totalVictories = 0;
     teams?.forEach(({ homeTeamGoals, awayTeamGoals }) => {
       if (homeTeamGoals > awayTeamGoals) {
-        totalPoints += 1;
+        totalVictories += 1;
       }
     });
-    return totalPoints;
+    return totalVictories;
   };
 
   private totalLosses = (teams: IMatch[]) => {
@@ -57,7 +57,7 @@ export default class LeaderBoardController {
 
   private goalsOwn = (teams: IMatch[]) => teams?.reduce((a, b) => a + b.awayTeamGoals, 0);
 
-  public async leaderBoardtable() {
+  private async leaderBoardtable() {
     const service = await this._leaderService.getAllMatches();
     const teste = service.map(({ homeMatches, teamName }) => ({
       name: teamName,
@@ -77,7 +77,7 @@ export default class LeaderBoardController {
     return teste;
   }
 
-  private async tableTest(req: Request, res: Response) {
+  public async leaderBoard(req: Request, res: Response) {
     const result = await this.leaderBoardtable();
     return res.status(200).json(result);
   }
