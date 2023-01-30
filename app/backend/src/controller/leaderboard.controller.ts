@@ -77,8 +77,17 @@ export default class LeaderBoardController {
     return teste;
   }
 
+  private async orderLeaderBoard() {
+    const leaderBoard = await this.leaderBoardtable();
+    return leaderBoard.sort((a, b) => b.totalPoints - a.totalPoints
+    || b.totalVictories - a.totalVictories
+    || b.goalsBalance - a.goalsBalance
+    || b.goalsFavor - a.goalsFavor
+    || b.goalsOwn - a.goalsOwn);
+  }
+
   public async leaderBoard(req: Request, res: Response) {
-    const result = await this.leaderBoardtable();
+    const result = await this.orderLeaderBoard();
     return res.status(200).json(result);
   }
 }
