@@ -23,12 +23,23 @@ export default class LeaderBoardController {
     return totalPoints;
   };
 
+  public totalVictories = (teams: IMatch[]) => {
+    let totalPoints = 0;
+    teams?.forEach((match) => {
+      if (match.homeTeamGoals > match.awayTeamGoals) {
+        totalPoints += 1;
+      }
+    });
+    return totalPoints;
+  };
+
   public async leaderBoardtable() {
     const service = await this._leaderService.getAllMatches();
     const teste = service.map((matches) => ({
       name: matches.teamName,
       totalPoints: this.totalPoints(matches.homeMatches),
       totalGames: matches.homeMatches.length,
+      totalVictories: this.totalVictories(matches.homeMatches),
     }));
 
     return teste;
