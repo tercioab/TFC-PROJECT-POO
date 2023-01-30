@@ -12,11 +12,11 @@ export default class LeaderBoardController {
 
   public totalPoints = (teams: IMatch[]) => {
     let totalPoints = 0;
-    teams?.forEach((match) => {
-      if (match.homeTeamGoals > match.awayTeamGoals) {
+    teams?.forEach(({ homeTeamGoals, awayTeamGoals }) => {
+      if (homeTeamGoals > awayTeamGoals) {
         totalPoints += 3;
       }
-      if (match.homeTeamGoals === match.awayTeamGoals) {
+      if (homeTeamGoals === awayTeamGoals) {
         totalPoints += 1;
       }
     });
@@ -25,8 +25,8 @@ export default class LeaderBoardController {
 
   public totalVictories = (teams: IMatch[]) => {
     let totalPoints = 0;
-    teams?.forEach((match) => {
-      if (match.homeTeamGoals > match.awayTeamGoals) {
+    teams?.forEach(({ homeTeamGoals, awayTeamGoals }) => {
+      if (homeTeamGoals > awayTeamGoals) {
         totalPoints += 1;
       }
     });
@@ -35,8 +35,8 @@ export default class LeaderBoardController {
 
   public totalDraws = (teams: IMatch[]) => {
     let totalDraws = 0;
-    teams?.forEach((match) => {
-      if (match.homeTeamGoals === match.awayTeamGoals) {
+    teams?.forEach(({ homeTeamGoals, awayTeamGoals }) => {
+      if (homeTeamGoals === awayTeamGoals) {
         totalDraws += 1;
       }
     });
@@ -45,12 +45,12 @@ export default class LeaderBoardController {
 
   public async leaderBoardtable() {
     const service = await this._leaderService.getAllMatches();
-    const teste = service.map((matches) => ({
-      name: matches.teamName,
-      totalPoints: this.totalPoints(matches.homeMatches),
-      totalGames: matches.homeMatches.length,
-      totalVictories: this.totalVictories(matches.homeMatches),
-      totalDraws: this.totalDraws(matches.homeMatches),
+    const teste = service.map(({ homeMatches, teamName }) => ({
+      name: teamName,
+      totalPoints: this.totalPoints(homeMatches),
+      totalGames: homeMatches.length,
+      totalVictories: this.totalVictories(homeMatches),
+      totalDraws: this.totalDraws(homeMatches),
     }));
 
     return teste;
