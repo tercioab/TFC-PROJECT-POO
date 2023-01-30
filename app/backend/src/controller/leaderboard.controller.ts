@@ -5,11 +5,9 @@ import LeaderboardService from '../services/leaderBoard.service';
 
 export default class LeaderBoardController {
   private _leaderService;
-  private _totalPoints;
 
   constructor() {
     this._leaderService = new LeaderboardService();
-    this._totalPoints = 0;
   }
 
   public totalPoints = (teams: IMatch[]) => {
@@ -29,8 +27,8 @@ export default class LeaderBoardController {
     const service = await this._leaderService.getAllMatches();
     const teste = service.map((matches) => ({
       name: matches.teamName,
-      totalPoints: this.totalPoints(matches.homeTeams),
-      totalGames: matches.homeTeams.length,
+      totalPoints: this.totalPoints(matches.homeMatches),
+      totalGames: matches.homeMatches.length,
     }));
 
     return teste;

@@ -17,7 +17,7 @@ export default class LeaderboardService {
       include: [
         {
           model: this._matchModel,
-          as: 'homeTeams',
+          as: 'homeMatches',
           attributes: { exclude: ['id', 'inProgress'] },
           where: { inProgress: false },
         },
