@@ -46,7 +46,6 @@ export default class HomeLeaderBoard {
   };
 
   private goalsFavor = (teams: IMatch[]) => teams?.reduce((a, b) => a + b.homeTeamGoals, 0);
-
   private goalsOwn = (teams: IMatch[]) => teams?.reduce((a, b) => a + b.awayTeamGoals, 0);
 
   public async leaderBoardtable(serviceLeader: IHomeTeam[]) {
@@ -63,11 +62,7 @@ export default class HomeLeaderBoard {
       efficiency: (Number([(this.totalPoints(homeMatches)) / (homeMatches.length * 3)]) * 100)
         .toFixed(2),
 
-    })).sort((a, b) => b.totalPoints - a.totalPoints
-    || b.totalVictories - a.totalVictories
-    || b.goalsBalance - a.goalsBalance
-    || b.goalsFavor - a.goalsFavor
-    || b.goalsOwn - a.goalsOwn);
+    }));
 
     return table;
   }

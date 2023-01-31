@@ -1,4 +1,4 @@
-import IResponseMatch from '../interface/IResponseMatch';
+import IResponseMatch from '../types/IResponseMatch';
 import IMatch from '../interface/IMatch';
 
 import matchModel from '../database/models/Match.model';
