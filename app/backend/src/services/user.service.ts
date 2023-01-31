@@ -2,7 +2,7 @@ import * as bcrypt from 'bcryptjs';
 import IUser from '../interface/IUser';
 import usersModel from '../database/models/User.model';
 import JWT from '../auth/jwtFunctions';
-import IResponseUser from '../interface/IResponse';
+import IResponseUser from '../interface/IResponseUser';
 
 export default class UserService {
   private _usersModel;
