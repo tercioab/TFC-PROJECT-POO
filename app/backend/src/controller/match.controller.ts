@@ -8,7 +8,7 @@ export default class MatchController {
     this._matchService = new MatchService();
   }
 
-  public async get(req: Request, res: Response) {
+  public async getMatchesInProgressOrAll(req: Request, res: Response) {
     const { inProgress } = req.query;
 
     if (inProgress === undefined) {

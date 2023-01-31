@@ -8,7 +8,7 @@ const routers = Router();
 const matches = new MatchController();
 const jwt = new JWT();
 
-routers.get('/', (req, res) => matches.get(req, res));
+routers.get('/', (req, res) => matches.getMatchesInProgressOrAll(req, res));
 
 routers.post(
   '/',
