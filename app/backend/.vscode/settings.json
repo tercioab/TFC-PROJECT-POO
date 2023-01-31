@@ -1,0 +1,19 @@
+{
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "**/.trunk/*out": true,
+        "**/*.git": true,
+        "node_modules": true,
+        "build": true,
+        ".vscode": true,
+        ".nyc_output": true,
+        ".dockerignore": true,
+        "database": true
+    },
+    "explorerExclude.backup": {}
+}

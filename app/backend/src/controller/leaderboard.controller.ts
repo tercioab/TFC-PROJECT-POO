@@ -19,27 +19,36 @@ export default class LeaderBoardController {
 
   public async leaderBoardAway(req: Request, res: Response) {
     const result = await this._leaderService.getAllAwayMatches();
-    const table = await this._awayBoard.leaderBoardtable(result);
-    const orderMatches = this._MatchesUtils.orderMatches(table);
-    return res.status(200).json(orderMatches);
+
+    const makeTable = await this._awayBoard.leaderBoardtable(result);
+
+    const orderMatchesTable = this._MatchesUtils.orderMatches(makeTable);
+
+    return res.status(200).json(orderMatchesTable);
   }
 
   public async leaderBoardHome(req: Request, res: Response) {
     const result = await this._leaderService.getAllHomeMatches();
-    const table = await this._homeBoard.leaderBoardtable(result);
-    const orderMatches = this._MatchesUtils.orderMatches(table);
-    return res.status(200).json(orderMatches);
+
+    const makeTable = await this._homeBoard.leaderBoardtable(result);
+
+    const orderMatchesTable = this._MatchesUtils.orderMatches(makeTable);
+
+    return res.status(200).json(orderMatchesTable);
   }
 
   public async allLeaderBoards(req: Request, res: Response) {
-    const homeMatches = await this._leaderService.getAllHomeMatches();
     const awayMatches = await this._leaderService.getAllAwayMatches();
-    const tableAway = await this._awayBoard.leaderBoardtable(awayMatches);
-    const tableHome = await this._homeBoard.leaderBoardtable(homeMatches);
+    const homeMatches = await this._leaderService.getAllHomeMatches();
 
-    const sumMatches = tableHome.map((homeMatch) => this._MatchesUtils
-      .sumMatches(homeMatch, tableAway.find((m) => m.name === homeMatch.name)));
-    const orderMatches = this._MatchesUtils.orderMatches(sumMatches);
-    return res.status(200).json(orderMatches);
+    const makeTableAway = await this._awayBoard.leaderBoardtable(awayMatches);
+    const makeTableHome = await this._homeBoard.leaderBoardtable(homeMatches);
+
+    const sumMatches = makeTableHome.map((homeMatchesTable) => this._MatchesUtils
+      .sumMatches(homeMatchesTable, makeTableAway.find((m) => m.name === homeMatchesTable.name)));
+
+    const orderMatchesTable = this._MatchesUtils.orderMatches(sumMatches);
+
+    return res.status(200).json(orderMatchesTable);
   }
 }
