@@ -8,14 +8,14 @@ export default class TeamMode {
     this._teamService = new TeamService();
   }
 
-  async all(req: Request, res: Response) {
-    const teams = await this._teamService.all();
+  async allTeams(req: Request, res: Response) {
+    const teams = await this._teamService.allTeams();
     return res.status(200).json(teams);
   }
 
-  async byId(req: Request, res: Response) {
+  async teamsById(req: Request, res: Response) {
     const { id } = req.params;
-    const { status, message, team } = await this._teamService.byId(id);
+    const { status, message, team } = await this._teamService.teamsById(id);
     if (message) {
       return res.status(status).json({ message });
     }

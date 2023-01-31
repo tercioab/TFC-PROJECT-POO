@@ -8,11 +8,11 @@ export default class TeamService {
     this._teamModel = teamModel;
   }
 
-  public async all() {
+  public async allTeams() {
     return this._teamModel.findAll();
   }
 
-  public async byId(id: string | number) {
+  public async teamsById(id: string | number) {
     const team = await this._teamModel.findOne({ where: { id } });
     return team ? { status: 200, team }
       : { status: 404, message: 'There is no team with such id!' };
