@@ -13,10 +13,10 @@ routers.get('/', (req, res) => matches.getMatchesInProgressOrAll(req, res));
 routers.post(
   '/',
   (req, res, next) => jwt.verifyToken(req, res, next),
-  (req, res) => matches.create(req, res),
+  (req, res) => matches.createMatch(req, res),
 );
 
-routers.patch('/:id', (req, res) => matches.update(req, res));
-routers.patch('/:id/finish', (req, res) => matches.finality(req, res));
+routers.patch('/:id', (req, res) => matches.updateMatch(req, res));
+routers.patch('/:id/finish', (req, res) => matches.finalityMatch(req, res));
 
 export default routers;

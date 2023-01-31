@@ -17,7 +17,7 @@ export default class MatchService {
     this._teamService = new TeamService();
   }
 
-  public async all(): Promise<matchModel[]> {
+  public async allMatches(): Promise<matchModel[]> {
     return this._matchModel.findAll({
       include: [
         { model: this._teamModel, as: 'homeTeam', attributes: ['teamName'] },
@@ -26,7 +26,7 @@ export default class MatchService {
     });
   }
 
-  public async InProgress(inProgressOrNot: boolean): Promise<matchModel[]> {
+  public async InProgressMatches(inProgressOrNot: boolean): Promise<matchModel[]> {
     return this._matchModel.findAll({
       where: { inProgress: inProgressOrNot },
       include: [
@@ -36,7 +36,7 @@ export default class MatchService {
     });
   }
 
-  public async create(body: IMatch): Promise<IResponseMatch> {
+  public async createMatch(body: IMatch): Promise<IResponseMatch> {
     const checkTeamsResponseError = await this._teamService.checkTeamsForMatches(body);
     const match = await this._matchModel.create({
       ...body,
@@ -46,7 +46,7 @@ export default class MatchService {
     return checkTeamsResponseError !== false ? checkTeamsResponseError : { status: 201, match };
   }
 
-  public async finality(id: string): Promise<IResponseMatch> {
+  public async finalityMatch(id: string): Promise<IResponseMatch> {
     const match = this._matchModel.findOne({ where: { id } });
     if (!match) {
       return { status: 401, message: 'match not found' };
@@ -58,7 +58,7 @@ export default class MatchService {
     return { status: 200, message: 'Finished' };
   }
 
-  public async update(body: IMatch, id: string) {
+  public async updateMatch(body: IMatch, id: string) {
     const { homeTeamGoals, awayTeamGoals } = body;
     return this._matchModel.update(
       { homeTeamGoals, awayTeamGoals },
