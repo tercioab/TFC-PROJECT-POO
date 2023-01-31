@@ -12,9 +12,9 @@ const jwt = new JWT();
 routers.get(
   '/validate',
   (req, res, next) => jwt.verifyToken(req, res, next),
-  (req, res) => user.userRole(req, res),
+  (req, res) => user.userRoleToValidate(req, res),
 );
 
-routers.post('/', validateLogin, (req, res) => user.findUser(req, res));
+routers.post('/', validateLogin, (req, res) => user.findUserToLogin(req, res));
 
 export default routers;

@@ -6,10 +6,10 @@ class UserController {
 
   constructor() {
     this._userService = new UserService();
-    this.userRole = this.userRole.bind(this);
+    this.userRoleToValidate = this.userRoleToValidate.bind(this);
   }
 
-  async findUser(req: Request, res: Response) {
+  async findUserToLogin(req: Request, res: Response) {
     const { status, message, token } = await this._userService.findUser(
       req.body,
     );
@@ -17,7 +17,7 @@ class UserController {
     return res.status(status).json(jsonResponse);
   }
 
-  userRole = async (req: Request, res: Response) => {
+  userRoleToValidate = async (req: Request, res: Response) => {
     const { role } = req.body.user;
     res.status(200).json({ role });
   };
