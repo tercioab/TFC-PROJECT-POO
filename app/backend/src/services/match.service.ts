@@ -18,24 +18,22 @@ export default class MatchService {
   }
 
   public async all(): Promise<matchModel[]> {
-    const matches = await this._matchModel.findAll({
+    return this._matchModel.findAll({
       include: [
         { model: this._teamModel, as: 'homeTeam', attributes: ['teamName'] },
         { model: this._teamModel, as: 'awayTeam', attributes: ['teamName'] },
       ],
     });
-    return matches;
   }
 
   public async InProgress(inProgressOrNot: boolean): Promise<matchModel[]> {
-    const matches = await this._matchModel.findAll({
+    return this._matchModel.findAll({
       where: { inProgress: inProgressOrNot },
       include: [
         { model: this._teamModel, as: 'homeTeam', attributes: ['teamName'] },
         { model: this._teamModel, as: 'awayTeam', attributes: ['teamName'] },
       ],
     });
-    return matches;
   }
 
   public async create(body: IMatch): Promise<IResponseMatch> {
@@ -62,11 +60,10 @@ export default class MatchService {
 
   public async update(body: IMatch, id: string) {
     const { homeTeamGoals, awayTeamGoals } = body;
-    const result = await this._matchModel.update(
+    return this._matchModel.update(
       { homeTeamGoals, awayTeamGoals },
       { where: { id } },
 
     );
-    return result;
   }
 }
