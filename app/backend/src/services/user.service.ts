@@ -2,7 +2,7 @@ import * as bcrypt from 'bcryptjs';
 import IUser from '../interface/IUser';
 import usersModel from '../database/models/User.model';
 import JWT from '../auth/jwtFunctions';
-import IResponse from '../interface/IResponse';
+import IResponseUser from '../interface/IResponse';
 
 export default class UserService {
   private _usersModel;
@@ -13,7 +13,7 @@ export default class UserService {
     this._jwt = new JWT();
   }
 
-  public async findUser(body: IUser): Promise<IResponse> {
+  public async findUser(body: IUser): Promise<IResponseUser> {
     const { email, password } = body;
     const user = await this._usersModel.findOne({ where: { email } });
     const message = 'Incorrect email or password';
