@@ -24,7 +24,7 @@ export default class TeamService {
     const awayTeam = await this._teamModel.findOne({ where: { id: awayTeamId } });
     const homeTeam = await this._teamModel.findOne({ where: { id: homeTeamId } });
 
-    if (awayTeam?.dataValues.id === homeTeam?.dataValues.id) {
+    if (homeTeamId === awayTeamId) {
       return { status: 422, message: 'It is not possible to create a match with two equal teams' };
     }
     if (!awayTeam || !homeTeam) {
