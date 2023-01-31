@@ -1,4 +1,4 @@
-export default interface Response {
+export default interface IResponseUser {
   status: number;
   message?: string;
   token?: string;

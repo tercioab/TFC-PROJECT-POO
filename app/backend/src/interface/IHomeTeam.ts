@@ -1,7 +1,6 @@
 import IMatch from './IMatch';
+import ITeam from './ITeam';
 
-export default interface IHomeTeam {
-  id?: number;
-  teamName: string;
+export default interface IHomeTeam extends ITeam {
   homeMatches: IMatch[]
 }
