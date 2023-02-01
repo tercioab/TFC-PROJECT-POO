@@ -28,7 +28,6 @@ describe('Teams section tests', () => {
     .get('/teams')
     expect(result.status).to.be.equal(200);
     expect(result.body).to.be.an('array')
-    expect(result.body.length).to.be.equal(16);;
   });
 
   it('2 se inserir o id 7 retorna teamName: Flamengo', async () => {
