@@ -18,7 +18,7 @@ const { expect } = chai;
 
 
 
-describe('Teams section tests', () => {
+describe('Teams test', () => {
   afterEach(sinon.restore);
 
   it('1 retorna todos os times', async () => {
