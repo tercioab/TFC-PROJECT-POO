@@ -30,6 +30,7 @@ class App {
     this.app.use('/login', login);
     this.app.use('/teams', team);
     this.app.use('/leaderboard', leaderBoard);
+    this.app.use('/teste', (req, res) => res.status(200).json({ message: 'ok!' }));
   }
 
   public start(PORT: string | number):void {
