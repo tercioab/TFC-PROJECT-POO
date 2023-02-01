@@ -12,12 +12,14 @@ chai.use(chaiHttp);
 const { expect } = chai;
 
 describe("Testes login", () => {
-  afterEach(sinon.restore);
 
-  it("01. É possível realizar o login com sucesso.", async () => {
-    sinon
-      .stub(usersModel, "findOne")
-      .resolves({ dataValues: validUser } as any);
+
+    it("01. É possível realizar o login com sucesso.", async () => {
+      
+        sinon
+        .stub(usersModel, "findOne")
+        .resolves({ dataValues: validUser } as any);
+  
     const result = await chai
       .request(app)
       .post("/login")
