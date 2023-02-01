@@ -37,7 +37,6 @@ describe('Teams test', () => {
     .get('/teams/7')
     expect(result.status).to.be.equal(200);
       expect(result.body).to.be.deep.equal({ id: 7, teamName: 'Flamengo' });
-      sinon.restore()
   });
     
   it('3 Retorna erro se enserir um id inexistente ', async () => {
