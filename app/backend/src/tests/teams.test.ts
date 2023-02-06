@@ -47,6 +47,6 @@ describe('Teams test', () => {
     expect(result.status).to.be.equal(404);
     expect(result.body).to.be.deep.equal({ message: 'There is no team with such id!' });
   });
-
-  
   });
+
+
